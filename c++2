@@ -1,0 +1,220 @@
+#include <iostream>
+#include <deque>
+#include <ctime>
+#include<string> 
+
+using namespace std;
+
+const int nmax = 1000;
+
+int ReadMenuItem() {
+	string buttonStr;
+	int button;
+	while (true) {
+		try {
+			cin >> buttonStr;
+			button = stoi(buttonStr);
+			return button;
+		}
+		catch (const std::exception) {
+			cout << "Invalid value , please type digit" << endl;
+		}
+	}
+}
+
+void sieveofEratosthenes(deque<int>& item) {
+	int size = item.size();
+	item.assign(size, 0);
+	for (int i = 2; i * i < size; i++) {
+		if (item[i] == 0) {
+			for (int j = i * i; j < size; j += i) {
+				item[j] = 1;
+			}
+		}
+	}
+	cout << "Sieve Eratosthenes in this deque:" << endl;
+	for (auto i : item) {
+		cout << i << endl;
+	}
+	item.clear();
+}
+
+void Merg(deque <int>& item, int begin, int end)
+{
+	int
+		i = begin,
+		mid = begin + (end - begin) / 2,
+		j = mid + 1,
+		k = 0,
+		d[nmax];
+	while (i <= mid && j <= end) {
+		if (item[i] <= item[j]) {
+			d[k] = item[i]; i++;
+		}
+		else {
+			d[k] = item[j]; j++;
+		}
+		k++;
+	}
+	while (i <= mid)
+	{
+		d[k] = item[i];
+		i++; k++;
+	}
+	while (j <= end) {
+		d[k] = item[j];
+		j++; k++;
+	}
+	for (i = 0; i < k; i++) {
+		item[begin + i] = d[i];
+	}
+}
+void MergSort(deque<int>& item, int left, int right)
+{
+	int temp = 0;
+	if (left < right) {
+		if (right - left == 1) {
+			if (item[left] > item[right]) {
+				temp = item[left];
+				item[left] = item[right];
+				item[right] = temp;
+			}
+		}
+		else {
+			MergSort(item, left, left + (right - left) / 2);
+			MergSort(item, left + (right - left) / 2 + 1, right);
+			Merg(item, left, right);
+		}
+
+	}
+}
+
+void NewDeque(deque <int>& item) {
+	srand(time(NULL));
+	bool alreadyThere;
+	int poka = 0;
+	while (poka < 1) {
+		cout << "You need to enter deque first.You want to do it your self(1),or program will do it randlomly(2)" << endl;
+		int button = ReadMenuItem();
+		if (button == 2) {
+			cout << "Enter size of your deque:" << endl;
+			int SIZE = ReadMenuItem();
+			cout << "Your deque:" << endl;
+			for (int i = 0; i < SIZE; ) {
+				alreadyThere = false;
+				item.push_back(rand() % 10000);
+				int NewRandomVal = rand() % 10000;
+				for (int j = 0; j < i; j++) {
+					if (item[j] == NewRandomVal) {
+						alreadyThere = true;
+						break;
+					}
+				}
+				if (!alreadyThere) {
+					item[i] = NewRandomVal;
+					i++;
+				}
+				cout << item[i - 1] << endl;
+
+			}
+			poka++;
+		}
+		else if (button == 1) {
+			int button2;
+			cout << "Enter values" << endl;
+			for (int i = 0; ; i++) {
+				cout << "You want enter more?\n 1-Yes\n 2-No" << endl;
+				int button3 = ReadMenuItem();
+				if (button3 == 1) {
+					cout << "Enter element" << endl;
+					item.push_back(ReadMenuItem());
+					poka++;
+				}
+				else if (button3 == 2) {
+					break;
+				}
+				else
+					cout << "Enter 1 or 2 please" << endl;
+			}
+		}
+		else {
+			cout << "Enter 1 or 2 please" << endl;
+		}
+
+
+	}
+}
+
+void Print(deque <int>& item, int SIZE) {
+	cout << "Your deque:" << endl;
+	for (int i = 0; i < SIZE; i++) {
+		cout << item[i] << endl;
+	}
+}
+
+void Dobavlenie(deque <int>& item, int SIZE) {
+	while (true) {
+		cout << "You want to add more elements?\n 1-Yes\n 2-No" << endl;
+		int button = ReadMenuItem();
+		if (button == 1) {
+			cout << "Enter element" << endl;
+			item.push_back(ReadMenuItem());
+			
+		}
+		else if (button == 2)
+			break;
+		else
+			cout << "Enter 1 or 2 please" << endl;
+	}
+	cout << "Your deque now:" << endl;
+	for (auto el : item) {
+		cout << el << endl;
+	}
+}
+
+int main() {
+	deque <int> array;
+	bool alreadyThere;
+	
+	cout << "Hello!" << endl;
+	NewDeque(array);
+	
+	do {
+		cout << "Now you can:\n1-Sort deque\n2-Sieve of Eratosthenes\n3-Add more elements in deque\n4-Enter new deque\n5-Print out your deque\nWhat you want to do next?" << endl;
+		int button2 = ReadMenuItem();
+		if (button2 == 1) {
+			int SIZE = array.size();
+			MergSort(array, 0, SIZE - 1);
+			cout << "Your sorted deque:" << endl;
+			for (int i = 0; i < SIZE; i++)
+			{
+				cout << array[i] << endl;
+			}
+		}
+		else if (button2 == 2) {
+			sieveofEratosthenes(array);
+			NewDeque(array);
+		}
+
+		else if (button2 == 3) {
+			int SIZE = array.size();
+			Dobavlenie(array, SIZE);
+		}
+		else if (button2 == 4) {
+			int poka = 0;
+			while (poka < 1)
+			{
+				array.clear();
+				NewDeque(array);
+				poka++;
+			}
+		}
+		else if (button2 == 5) {
+			int SIZE = array.size();
+			Print(array, SIZE);
+		}
+		else
+			cout << "Enter 1 , 2 ,3 or 4 please" << endl;
+	} while (true);
+	return 0;
+}
