@@ -1,0 +1,72 @@
+#include <iostream>
+#include <string>
+#include<ctime>
+#include<array>
+#include<math.h>
+using namespace std;
+
+
+int ReadValue() {
+    string buttonStr;
+    int button;
+    while (true) {
+        try {
+            cin >> buttonStr;
+            button = stoi(buttonStr);
+            return button;
+        }
+        catch (const std::exception&) {
+            cout << "Invalid value , please type digit" << endl;
+        }
+    }
+}
+
+int main()
+{
+    cout << "Hello!" << endl;
+    srand(time(NULL));
+    const int SIZE = 1000;
+    array<int, SIZE> array1;
+    array<int, SIZE> array2;
+    cout << "Enter size of array" << endl;
+    int size = ReadValue();
+    cout << "Your array:" << endl;
+    for (int i = 0; i < size; i++) {
+        
+        array1[i] = rand() % 2001 - 1000;    
+        cout << array1[i] << endl; 
+    }
+    cout << " " << endl;
+    int minValue = 1000;
+    for (int i = 0; i < size; i++) {
+        if (abs(array1[i])<minValue)
+            minValue = abs(array1[i]);
+    }
+    cout << " " << endl;
+    int summ=0;
+    for (int i = 0; i < size; i++) {
+     
+        if (array1[i] == 0) {
+            for (int j = array1[i]; j < size; j++) {
+                summ = array1[i] + array1[i + 1];
+            }
+        }
+    }
+    cout <<"The minimum value modulo is : "<< minValue << endl;
+    cout << "The sum of the modules of the array elements located after first element equal to zero : "<<summ << endl;
+    cout << " " << endl;
+    
+    cout << "The converted array, in which the elements are located in even positions and then in odd" << endl;
+    int result[SIZE], i, j = 0;
+    for (i = 0; i < size; i += 2)
+    {
+        result[j++] = array1[i];
+        cout << array1[i] << endl;
+    }
+    
+    for (i = 1; i < size; i += 2)
+    {
+        result[j++] = array1[i];
+        cout << array1[i] << endl;
+    }
+}
