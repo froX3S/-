@@ -1,0 +1,89 @@
+#include<list>
+#include <iostream>
+#include <ctime>
+#include<string> 
+
+using namespace std;
+
+int  ReadMenuItem() {
+    string buttonStr;
+    int button;
+    while (true) {
+        try {
+            cin >> buttonStr;
+            button = stoi(buttonStr);
+            return button;
+        }
+        catch (const std::exception) {
+            cout << "Invalid value , please type digit" << endl;
+        }
+    }
+}
+void Print(list<int> &item) {
+    for (auto i = item.begin(); i != item.end(); i++) {
+        cout << *i << endl;
+    }
+}
+void Poisk(list<int> &item) {
+    cout << "Enter the element you would to find" << endl;
+    int element = ReadMenuItem();
+    int count = 0;
+    cout << "Searching element in list..." << endl;
+    for ( auto el  : item)
+    {
+        count++;
+        if (el == element) {
+            cout << "Number "<< element << " finded. And the serial number of it is:" << count << endl;
+            return;
+        }
+        
+    }
+    cout << "Cant find 19!" << endl;
+}
+void CreateNewList(list <int> &item){
+    cout << "You need to enter size of list first:" << endl;
+    int size = ReadMenuItem();
+    cout << "Elements of list:" << endl;
+    for (int i = 0; i < size; i++) {
+        item.push_front(rand() % 101 - 50);
+    }
+    Print(item);
+}
+int main()
+{
+    cout << "Hello!" << endl;
+    srand(time(NULL));
+    int count = 0;
+    list <int> myList;
+    while (count < 1) {
+        CreateNewList(myList);
+        count++;
+    }
+    do {
+        cout << "You can choose between 3 actions:\n 1-Sort list\n 2-Delete duplicate items\n 3-Search any number you want in list\n 4-Create new list\n What you choose?" << endl;
+        int button = ReadMenuItem();
+        if (button == 1) {
+            cout << "Sorted list:" << endl;
+            myList.sort();
+            Print(myList);
+        }
+        else if (button == 2) {
+            cout << "Deleteing all duplicate items..." << endl;
+            myList.unique();
+            cout << "List without duplicate items:" << endl;
+            Print(myList);
+            cout << " " << endl;
+        }
+        else if (button == 3) {
+            Poisk(myList);
+        }
+        else if (button == 4) {
+            myList.clear();
+            CreateNewList(myList);
+        }
+        else {
+            cout << "Enter 1 , 2 or 3 please" << endl;
+        }
+    } while (true);
+    return 0;
+}
