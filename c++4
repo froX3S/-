@@ -1,0 +1,86 @@
+#include <map>
+#include <iostream>
+#include <ctime>
+#include<iterator>
+
+using namespace std;
+int readValueItem(string message) {
+    while (true) {
+        int value;
+        cin >> value;
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(32767, '\n');
+        }
+        else if (value > 10) {
+            cout << "Enter key until 10!" << endl;
+        }
+        else
+            return value;
+    }
+}
+
+int main()
+{
+    int min = 99;
+    int max = 0;
+    srand(time(NULL));
+    map <int,int > mymap;
+    int val1=0;
+    for (int i = 0; i < 10; i++) {
+        int val = rand() % 100;
+        mymap.emplace(val1, val);
+        val1++;
+    }
+    for (int i = 0; i < 10; i++) {
+        auto it = mymap.find(i);
+        cout << it->second << " ";
+    }
+    cout << " " << endl;
+  
+    for (auto el : mymap) {
+        if (el.second > max) {
+            max = el.second;
+        }
+        if (el.second < min) {
+            min = el.second;
+        }
+    }
+    cout << "\nMax value=" << max << endl;
+    cout << "Min value=" << min << endl;
+    cout << " " << endl;
+    cout << "Adding min element in the end" << endl;
+    mymap.emplace(10,min);
+    for (auto el : mymap) {
+        cout << el.first << ")";
+        cout << el.second << " ";
+    }
+    cout << " " << endl;
+
+    int value = readValueItem("\nEnter the key of element you want to delete");
+    for (auto it = mymap.begin(); it != mymap.end(); ) {
+        if (it->first == value) {
+            it = mymap.erase(it);
+        }
+        else {
+            ++it;
+        }
+    }
+    cout << "Map without deleted element:" << endl;
+    for (auto el : mymap) {
+        cout << el.second << " ";
+    }
+    cout << " " << endl;
+
+    cout << "\nMap after programm folded up value of every element and max+min values:" << endl;
+    for (auto el : mymap) {
+        int value = el.second + min + max;
+        el.second = value;
+    }
+    for (auto el : mymap) {
+        cout << el.second << " ";
+    }
+    cout << " \n" << endl;
+    return 0;
+    
+}
