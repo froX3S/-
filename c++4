@@ -10,7 +10,7 @@ int readValueItem(string message) {
         cin >> value;
         if (cin.fail()) {
             cin.clear();
-            cin.ignore(32767, '\n');
+            cin.ignore(11111, '\n');
         }
         else if (value > 10) {
             cout << "Enter key until 10!" << endl;
