@@ -159,7 +159,7 @@ void Dobavlenie(deque <int>& item, int SIZE) {
 		if (button == 1) {
 			cout << "Enter element" << endl;
 			item.push_back(ReadMenuItem());
-			
+
 		}
 		else if (button == 2)
 			break;
@@ -175,11 +175,11 @@ void Dobavlenie(deque <int>& item, int SIZE) {
 int main() {
 	deque <int> array;
 	bool alreadyThere;
-	
+
 	cout << "Hello!" << endl;
 	NewDeque(array);
-	
-	do {
+
+	while (true){
 		cout << "Now you can:\n1-Sort deque\n2-Sieve of Eratosthenes\n3-Add more elements in deque\n4-Enter new deque\n5-Print out your deque\nWhat you want to do next?" << endl;
 		int button2 = ReadMenuItem();
 		if (button2 == 1) {
@@ -215,6 +215,6 @@ int main() {
 		}
 		else
 			cout << "Enter 1 , 2 ,3 or 4 please" << endl;
-	} while (true);
+	} 
 	return 0;
 }
